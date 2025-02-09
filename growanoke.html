@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet Map - Roanoke, VA</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+
+    <style>
+        /* Define the height of the map */
+        #map { 
+            height: 500px; /* Increased height for better visibility */
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- The map container -->
+    <div id="map"></div>
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+
+    <script>
+        // Initialize the map and set view to Roanoke, Virginia
+        var map = L.map('map').setView([37.2707, -79.9414], 13);
+
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        // Style options for the GeoJSON markers
+        const juneberryStyle = {
+            radius: 4,
+            fillColor: "#9003fc",  // Twilight purple
+            color: "#000000",       // Black border
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.5
+        };
+
+        const mulberryStyle = {
+            radius: 4,
+            fillColor: "#ff1493",  // Hot pink
+            color: "#000000",      // Black border
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.5
+        };
+
+        const elderberryStyle = {
+            radius: 4,
+            fillColor: "#4548ff",  // Off-white
+            color: "#000000",      // Black border
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.5
+        };
+
+        //GeoJSON data. Called in using var geojson =   
+        var geojson = {
+"type": "FeatureCollection",
+"name": "berries",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "Name": "Mulberry", "Season": "Late Spring and Early Summer", "Notes": "Deciduous trees or large shrubs in Morus genus, known for fast growth and broad lobed leaves. Ripe in late May through early July. Edible fresh, dried, or in jams. Rich in vitamin C, iron, and antioxidants.", "Time": "2024/05/25 18:40:08.000" }, "geometry": { "type": "Point", "coordinates": [ -79.939693, 37.255756 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 18:40:38.000" }, "geometry": { "type": "Point", "coordinates": [ -79.939868, 37.255514 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 18:41:00.000" }, "geometry": { "type": "Point", "coordinates": [ -79.939861, 37.255456 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 18:41:17.000" }, "geometry": { "type": "Point", "coordinates": [ -79.939873, 37.25541 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 18:42:27.000" }, "geometry": { "type": "Point", "coordinates": [ -79.939682, 37.256038 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 18:42:50.000" }, "geometry": { "type": "Point", "coordinates": [ -79.939676, 37.256074 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 18:43:06.000" }, "geometry": { "type": "Point", "coordinates": [ -79.939671, 37.256087 ] } },
+{ "type": "Feature", "properties": { "Name": "Elderberry", "Season": "Late Summer and Early Fall", "Notes": "Deciduous shrubs in Sambucus genus, known for compound leaves and clusters of small white flowers. Dark purple-black berries ripen late summer to early fall. Cooked fruit used in syrups, jams, wines, and teas. Raw berries can be toxic if unripe. Rich in", "Time": "2024/05/25 18:44:08.000" }, "geometry": { "type": "Point", "coordinates": [ -79.939666, 37.2563 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 18:44:32.000" }, "geometry": { "type": "Point", "coordinates": [ -79.93966, 37.256492 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 18:45:23.000" }, "geometry": { "type": "Point", "coordinates": [ -79.939683, 37.256813 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 18:45:40.000" }, "geometry": { "type": "Point", "coordinates": [ -79.939686, 37.256776 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 18:45:56.000" }, "geometry": { "type": "Point", "coordinates": [ -79.939715, 37.256758 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 18:46:14.000" }, "geometry": { "type": "Point", "coordinates": [ -79.939741, 37.256687 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 18:47:37.000" }, "geometry": { "type": "Point", "coordinates": [ -79.939821, 37.256395 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 18:48:09.000" }, "geometry": { "type": "Point", "coordinates": [ -79.939846, 37.256192 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 18:53:08.000" }, "geometry": { "type": "Point", "coordinates": [ -79.937303, 37.259559 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 18:53:55.000" }, "geometry": { "type": "Point", "coordinates": [ -79.936909, 37.25989 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 18:54:23.000" }, "geometry": { "type": "Point", "coordinates": [ -79.936851, 37.26006 ] } },
+{ "type": "Feature", "properties": { "Name": "Mulberry", "Season": "Late Spring and Early Summer", "Notes": "Deciduous trees or large shrubs in Morus genus, known for fast growth and broad lobed leaves. Ripe in late May through early July. Edible fresh, dried, or in jams. Rich in vitamin C, iron, and antioxidants.", "Time": "2024/05/25 18:58:25.000" }, "geometry": { "type": "Point", "coordinates": [ -79.935602, 37.261274 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:01:17.000" }, "geometry": { "type": "Point", "coordinates": [ -79.935852, 37.260946 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:02:12.000" }, "geometry": { "type": "Point", "coordinates": [ -79.935888, 37.260909 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:02:27.000" }, "geometry": { "type": "Point", "coordinates": [ -79.935904, 37.260883 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:02:42.000" }, "geometry": { "type": "Point", "coordinates": [ -79.935943, 37.260857 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:13:33.000" }, "geometry": { "type": "Point", "coordinates": [ -79.934625, 37.261352 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:14:26.000" }, "geometry": { "type": "Point", "coordinates": [ -79.934568, 37.261362 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:14:52.000" }, "geometry": { "type": "Point", "coordinates": [ -79.934528, 37.261333 ] } },
+{ "type": "Feature", "properties": { "Name": "Mulberry", "Season": "Late Spring and Early Summer", "Notes": "Deciduous trees or large shrubs in Morus genus, known for fast growth and broad lobed leaves. Ripe in late May through early July. Edible fresh, dried, or in jams. Rich in vitamin C, iron, and antioxidants.", "Time": "2024/05/25 19:16:41.000" }, "geometry": { "type": "Point", "coordinates": [ -79.933853, 37.260349 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:16:58.000" }, "geometry": { "type": "Point", "coordinates": [ -79.933867, 37.260445 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:17:08.000" }, "geometry": { "type": "Point", "coordinates": [ -79.93391, 37.260464 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:17:18.000" }, "geometry": { "type": "Point", "coordinates": [ -79.93391, 37.260498 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:18:03.000" }, "geometry": { "type": "Point", "coordinates": [ -79.934125, 37.26094 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:18:18.000" }, "geometry": { "type": "Point", "coordinates": [ -79.934165, 37.26098 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:18:29.000" }, "geometry": { "type": "Point", "coordinates": [ -79.934199, 37.261007 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:18:44.000" }, "geometry": { "type": "Point", "coordinates": [ -79.934245, 37.261024 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:18:55.000" }, "geometry": { "type": "Point", "coordinates": [ -79.934268, 37.261056 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:19:12.000" }, "geometry": { "type": "Point", "coordinates": [ -79.934278, 37.261071 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:23:02.000" }, "geometry": { "type": "Point", "coordinates": [ -79.93335, 37.259629 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:23:16.000" }, "geometry": { "type": "Point", "coordinates": [ -79.933262, 37.259604 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:23:29.000" }, "geometry": { "type": "Point", "coordinates": [ -79.933188, 37.259569 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:24:11.000" }, "geometry": { "type": "Point", "coordinates": [ -79.932909, 37.259297 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:24:42.000" }, "geometry": { "type": "Point", "coordinates": [ -79.932748, 37.25921 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:25:09.000" }, "geometry": { "type": "Point", "coordinates": [ -79.932627, 37.259132 ] } },
+{ "type": "Feature", "properties": { "Name": "Mulberry", "Season": "Late Spring and Early Summer", "Notes": "Deciduous trees or large shrubs in Morus genus, known for fast growth and broad lobed leaves. Ripe in late May through early July. Edible fresh, dried, or in jams. Rich in vitamin C, iron, and antioxidants.", "Time": "2024/05/25 19:25:29.000" }, "geometry": { "type": "Point", "coordinates": [ -79.932595, 37.259099 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:26:00.000" }, "geometry": { "type": "Point", "coordinates": [ -79.932586, 37.259092 ] } },
+{ "type": "Feature", "properties": { "Name": "Mulberry", "Season": "Late Spring and Early Summer", "Notes": "Deciduous trees or large shrubs in Morus genus, known for fast growth and broad lobed leaves. Ripe in late May through early July. Edible fresh, dried, or in jams. Rich in vitamin C, iron, and antioxidants.", "Time": "2024/05/25 19:26:24.000" }, "geometry": { "type": "Point", "coordinates": [ -79.932529, 37.25904 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:27:09.000" }, "geometry": { "type": "Point", "coordinates": [ -79.932208, 37.258784 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:27:58.000" }, "geometry": { "type": "Point", "coordinates": [ -79.932004, 37.258434 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:28:36.000" }, "geometry": { "type": "Point", "coordinates": [ -79.931977, 37.25824 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:28:51.000" }, "geometry": { "type": "Point", "coordinates": [ -79.93195, 37.258219 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:29:05.000" }, "geometry": { "type": "Point", "coordinates": [ -79.931959, 37.258195 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:29:18.000" }, "geometry": { "type": "Point", "coordinates": [ -79.931931, 37.258179 ] } },
+{ "type": "Feature", "properties": { "Name": "Mulberry", "Season": "Late Spring and Early Summer", "Notes": "Deciduous trees or large shrubs in Morus genus, known for fast growth and broad lobed leaves. Ripe in late May through early July. Edible fresh, dried, or in jams. Rich in vitamin C, iron, and antioxidants.", "Time": "2024/05/25 19:29:43.000" }, "geometry": { "type": "Point", "coordinates": [ -79.931887, 37.258133 ] } },
+{ "type": "Feature", "properties": { "Name": "Mulberry", "Season": "Late Spring and Early Summer", "Notes": "Deciduous trees or large shrubs in Morus genus, known for fast growth and broad lobed leaves. Ripe in late May through early July. Edible fresh, dried, or in jams. Rich in vitamin C, iron, and antioxidants.", "Time": "2024/05/25 19:31:43.000" }, "geometry": { "type": "Point", "coordinates": [ -79.931392, 37.257297 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:46:30.000" }, "geometry": { "type": "Point", "coordinates": [ -79.94811, 37.25404 ] } },
+{ "type": "Feature", "properties": { "Name": "Mulberry", "Season": "Late Spring and Early Summer", "Notes": "Deciduous trees or large shrubs in Morus genus, known for fast growth and broad lobed leaves. Ripe in late May through early July. Edible fresh, dried, or in jams. Rich in vitamin C, iron, and antioxidants.", "Time": "2024/05/25 19:47:24.000" }, "geometry": { "type": "Point", "coordinates": [ -79.948396, 37.254244 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 19:48:05.000" }, "geometry": { "type": "Point", "coordinates": [ -79.948558, 37.254295 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 20:01:26.000" }, "geometry": { "type": "Point", "coordinates": [ -79.967113, 37.266711 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 20:01:40.000" }, "geometry": { "type": "Point", "coordinates": [ -79.967109, 37.266745 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 20:02:12.000" }, "geometry": { "type": "Point", "coordinates": [ -79.967037, 37.266947 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 20:03:36.000" }, "geometry": { "type": "Point", "coordinates": [ -79.966696, 37.266525 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 20:03:53.000" }, "geometry": { "type": "Point", "coordinates": [ -79.966753, 37.266505 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 20:04:12.000" }, "geometry": { "type": "Point", "coordinates": [ -79.966706, 37.266485 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 20:06:27.000" }, "geometry": { "type": "Point", "coordinates": [ -79.966435, 37.265913 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 20:06:37.000" }, "geometry": { "type": "Point", "coordinates": [ -79.966484, 37.265885 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 20:06:50.000" }, "geometry": { "type": "Point", "coordinates": [ -79.966422, 37.265891 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 20:08:51.000" }, "geometry": { "type": "Point", "coordinates": [ -79.966041, 37.266637 ] } },
+{ "type": "Feature", "properties": { "Name": "Juneberry", "Season": "Early Summer", "Notes": "Deciduous shrubs or small trees in Amelanchier genus, known for early white blossoms and smooth gray bark. Fruit is a small, round pome, ripening in June. Edible fresh, dried, or in jams and pies. Sweet, nutty flavor similar to blueberries. Rich in fiber", "Time": "2024/05/25 20:09:03.000" }, "geometry": { "type": "Point", "coordinates": [ -79.966098, 37.266676 ] } }
+]
+};
+
+
+        // Add GeoJSON layer to map with custom marker style based on properties
+        L.geoJSON(geojson, {
+            pointToLayer: function (feature, latlng) {
+                var style;
+                if (feature.properties.Name === "Juneberry") {
+                    style = juneberryStyle;
+                } else if (feature.properties.Name === "Mulberry") {
+                    style = mulberryStyle;
+                } else if (feature.properties.Name === "Elderberry") {
+                    style = elderberryStyle;
+                }
+
+                var marker = L.circleMarker(latlng, style);
+
+                // Add a popup with attributes
+                marker.bindPopup(function() {
+                    return "<b>Name:</b> " + feature.properties.Name + "<br>" +
+                           "<b>Season:</b> " + feature.properties.Season + "<br>" +
+                           "<b>Notes:</b> " + feature.properties.Notes + "<br>" +
+                           "<b>Time:</b> " + feature.properties.Time;
+                });
+
+                return marker;
+            }
+        }).addTo(map);
+
+
+
+
+
+
+        // Legend setup
+        var legend = L.control({ position: "bottomright" });
+
+        legend.onAdd = function () {
+            var div = L.DomUtil.create("div", "info legend");
+            var grades = ["Juneberry", "Mulberry", "Elderberry"];
+            var styles = [juneberryStyle, mulberryStyle, elderberryStyle];
+            var labels = [];
+
+            // Set legend background color and black border
+            div.style.backgroundColor = "#cbd4d1"; // Background color
+            div.style.border = "2px solid #000000"; // Black border
+            div.style.padding = "10px"; // Padding for better spacing
+            div.style.borderRadius = "5px"; // Rounded corners for the legend
+
+            // Loop through the grades and add a smaller circle with a black border
+            for (var i = 0; i < grades.length; i++) {
+                var colorBox = '<i style="background:' + styles[i].fillColor + '; width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; border: 2px solid #000000;"></i>';
+                labels.push(colorBox + grades[i]);
+            }
+
+            div.innerHTML = labels.join("<br>");
+            return div;
+        };
+
+        legend.addTo(map);
+
+
+
+
+ // Geolocation functionality
+        map.locate({setView: true, maxZoom: 16});
+
+        function onLocationFound(e) {
+            var radius = e.accuracy;
+
+            // Add a marker for the location
+            L.marker(e.latlng).addTo(map)
+                .bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+            // Add a circle around the location showing accuracy
+            L.circle(e.latlng, radius).addTo(map);
+        }
+
+        map.on('locationfound', onLocationFound);
+
+        function onLocationError(e) {
+            alert(e.message);
+        }
+
+        map.on('locationerror', onLocationError);
+
+
+
+
+// Custom textbox control in bottom left
+var textBox = L.control({ position: "bottomleft" });
+
+textBox.onAdd = function () {
+    var div = L.DomUtil.create("div", "info text-box");
+    div.innerHTML = "<b>Welcome to Growanoke, a project by David Jensen, Sydney Darden, and Della May. We invite you to explore the tasty abundance growing in Roanoke's shared spaces. </b>";
+
+    // Style the textbox
+    div.style.backgroundColor = "#cbd4d1"; // Match legend background
+    div.style.border = "2px solid #000000"; // Black border
+    div.style.padding = "10px";
+    div.style.borderRadius = "5px";
+    div.style.fontSize = "11.25px";
+    div.style.maxWidth = "200px"; // Restrict the width of the box
+    div.style.wordWrap = "break-word"; // Enable wrapping when text reaches the width limit
+    div.style.whiteSpace = "normal"; // Ensure the text can wrap normally
+
+    return div;
+};
+
+textBox.addTo(map);
+
+
+    </script>
+
+</body>
+</html>
+
