@@ -211,8 +211,7 @@
             var radius = e.accuracy;
 
             // Add a marker for the location
-            L.marker(e.latlng).addTo(map)
-                .bindPopup("You are within " + radius + " meters from this point").openPopup();
+            L.marker(e.latlng).addTo(map);
 
             // Add a circle around the location showing accuracy
             L.circle(e.latlng, radius).addTo(map);
