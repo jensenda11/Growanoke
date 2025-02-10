@@ -32,11 +32,30 @@
         // Initialize the map and set view to Roanoke, Virginia
         var map = L.map('map').setView([37.2707, -79.9414], 13);
 
-        // Add OpenStreetMap tile layer
+      // Add OpenStreetMap tile layer
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
+
+ // Add zoom button after initializing the map
+    var zoomButton = L.control({ position: 'topright' });
+
+    zoomButton.onAdd = function() {
+        var div = L.DomUtil.create('div', 'zoom-button');
+        div.innerHTML = '<button style="background-color: #cbd4d1; border: 2px solid #000000; padding: 5px; border-radius: 5px;">Zoom to Location</button>';
+        
+        // Style the button
+        div.firstChild.onclick = function() {
+            if (map.locate) {
+                map.locate({ setView: true, maxZoom: 16 });
+            }
+        };
+
+        return div;
+    };
+
+    zoomButton.addTo(map);
 
         // Style options for the GeoJSON markers
         const juneberryStyle = {
@@ -174,33 +193,56 @@
 
 
 
-        // Legend setup
-        var legend = L.control({ position: "bottomright" });
+        // Legend setup; Collapsible Legend Control
+var legend = L.control({ position: "bottomright" });
 
-        legend.onAdd = function () {
-            var div = L.DomUtil.create("div", "info legend");
-            var grades = ["Juneberry", "Mulberry", "Elderberry"];
-            var styles = [juneberryStyle, mulberryStyle, elderberryStyle];
-            var labels = [];
+legend.onAdd = function () {
+    var div = L.DomUtil.create("div", "info legend collapsed"); // Start in collapsed state
 
-            // Set legend background color and black border
-            div.style.backgroundColor = "#cbd4d1"; // Background color
-            div.style.border = "2px solid #000000"; // Black border
-            div.style.padding = "10px"; // Padding for better spacing
-            div.style.borderRadius = "5px"; // Rounded corners for the legend
+    // Create button to toggle legend visibility
+    var toggleButton = L.DomUtil.create("button", "legend-toggle", div);
+    toggleButton.innerHTML = "Legend (click)";
+    toggleButton.style.cursor = "pointer";
+    toggleButton.style.width = "100%";
+    toggleButton.style.backgroundColor = "#888";
+    toggleButton.style.color = "white";
+    toggleButton.style.border = "none";
+    toggleButton.style.padding = "5px";
+    toggleButton.style.fontSize = "14px";
 
-            // Loop through the grades and add a smaller circle with a black border
-            for (var i = 0; i < grades.length; i++) {
-                var colorBox = '<i style="background:' + styles[i].fillColor + '; width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; border: 2px solid #000000;"></i>';
-                labels.push(colorBox + grades[i]);
-            }
+    // Create legend content container (initially hidden)
+    var legendContent = L.DomUtil.create("div", "legend-content", div);
+    legendContent.style.display = "none"; // Hide initially
+    legendContent.style.backgroundColor = "#cbd4d1"; 
+    legendContent.style.border = "2px solid #000000"; 
+    legendContent.style.padding = "10px"; 
+    legendContent.style.borderRadius = "5px"; 
+    legendContent.style.fontSize = "14px";
 
-            div.innerHTML = labels.join("<br>");
-            return div;
-        };
+    var grades = ["Juneberry", "Mulberry", "Elderberry"];
+    var styles = [juneberryStyle, mulberryStyle, elderberryStyle];
+    var labels = [];
 
-        legend.addTo(map);
+    for (var i = 0; i < grades.length; i++) {
+        var colorBox = '<i style="background:' + styles[i].fillColor + '; width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; border: 2px solid #000000;"></i>';
+        labels.push(colorBox + grades[i]);
+    }
 
+    legendContent.innerHTML = labels.join("<br>");
+    
+    // Toggle legend visibility
+    toggleButton.onclick = function () {
+        if (legendContent.style.display === "none") {
+            legendContent.style.display = "block"; // Show legend
+        } else {
+            legendContent.style.display = "none"; // Hide legend
+        }
+    };
+
+    return div;
+};
+
+legend.addTo(map);
 
 
 
@@ -227,28 +269,45 @@
 
 
 
+// Collapsible Description Box
+var descriptionControl = L.control({ position: "bottomleft" });
 
-// Custom textbox control in bottom left
-var textBox = L.control({ position: "bottomleft" });
+descriptionControl.onAdd = function () {
+    var container = L.DomUtil.create("div", "info description-box");
 
-textBox.onAdd = function () {
-    var div = L.DomUtil.create("div", "info text-box");
-    div.innerHTML = "<b>Welcome to Growanoke, a project by David Jensen, Sydney Darden, and Della May. We invite you to explore the tasty abundance growing in Roanoke's shared spaces. </b>";
+    // Set initial collapsed state
+    container.innerHTML = `<b id="description-title" style="cursor: pointer;">What do we have here?</b>
+                           <div id="description-content" style="display: none;">
+                               Welcome to <b>Growanoke</b>, a project by David Jensen, Sydney Darden, and Della May. We invite you to explore the tasty abundance growing in Roanoke's shared spaces. (click to close)
+                           </div>`;
 
-    // Style the textbox
-    div.style.backgroundColor = "#cbd4d1"; // Match legend background
-    div.style.border = "2px solid #000000"; // Black border
-    div.style.padding = "10px";
-    div.style.borderRadius = "5px";
-    div.style.fontSize = "11.25px";
-    div.style.maxWidth = "200px"; // Restrict the width of the box
-    div.style.wordWrap = "break-word"; // Enable wrapping when text reaches the width limit
-    div.style.whiteSpace = "normal"; // Ensure the text can wrap normally
+    // Apply styling
+    container.style.backgroundColor = "#cbd4d1"; // Match legend background
+    container.style.border = "2px solid #000000"; // Black border
+    container.style.padding = "10px";
+    container.style.borderRadius = "5px";
+    container.style.fontSize = "11.25px";
+    container.style.maxWidth = "200px";
+    container.style.wordWrap = "break-word";
+    container.style.whiteSpace = "normal";
 
-    return div;
+    // Toggle visibility on click
+    container.querySelector("#description-title").addEventListener("click", function () {
+        var content = container.querySelector("#description-content");
+        if (content.style.display === "none") {
+            content.style.display = "block";
+            this.innerHTML = "<u>What do we have here?</u>";
+        } else {
+            content.style.display = "none";
+            this.innerHTML = "What do we have here?";
+        }
+    });
+
+    return container;
 };
 
-textBox.addTo(map);
+// Add to map
+descriptionControl.addTo(map);
 
 
     </script>
